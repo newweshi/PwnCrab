@@ -1,14 +1,15 @@
 name: Doc
-on:
-  pull_request_target:
+on: pull_request_target
 
 jobs:
-  test:
+  unsafe:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
-      
-      - name: Run Python tests
+          ref: ${{ github.event.pull_request.head.sha }}  # forked code
+      - name: Run forked code with secrets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 run_tests.py
+
